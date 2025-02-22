@@ -7,4 +7,4 @@ pyxel.init(160, 120)
 pyxel.text(50, 60, "Hello World!", pyxel.COLOR_WHITE)
 
 # Run the Pyxel game loop
-pyxel.run(lambda: None, lambda: None)
+pyxel.run( None, None)
