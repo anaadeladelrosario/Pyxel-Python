@@ -38,18 +38,33 @@ class Claw:
         self.y = 20
 
     def draw(self, debug = False):
-        #draw mount
-        pyxel.blt(self.x - 8, 24, 0, 48, 0, 16, 8, 14)
+
+        self.draw_mount()
 
         # draw wheel
         wheel_x = 8 * ((self.x // 4) % 2)
         wheel_y = 24 + 8*((self.x // 8) % 2)
         pyxel.blt(self.x, 20, 0, wheel_x, wheel_y, 8, 8, 14)
 
+        self.draw_arm()
+        self.draw_head()
+        self.draw_hand()
+
         if(debug):
             pyxel.text(4, 4, f"X: {self.x} Y: {self.y}", 0)
             pyxel.line(self.x, 0, self.x, 120, 7)
-        pass
+    
+    def draw_mount(self):
+        pyxel.blt(self.x - 8, 24, 0, 48, 0, 16, 8, 14)
+
+    def draw_arm(self):
+        pyxel.blt(self.x-8, 32,0,48,8, 16, 8, 14)
+
+    def draw_head(self):
+        pyxel.blt(self.x-8, 40,0,32,0, 16, 8, 14)
+
+    def draw_hand(self):
+        pyxel.blt(self.x-8, 48,0,32,24, 16, 8, 14)
 
     def update(self):
         if pyxel.btn(pyxel.KEY_LEFT):
