@@ -1,0 +1,6 @@
+venv/
+spikes*/
+__pycache__/
+.vscode/
+env/
+.ropeproject/
