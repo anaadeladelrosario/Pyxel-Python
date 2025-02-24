@@ -3,33 +3,48 @@ from enum import Enum
 
 
 class App:
-
+    class State(Enum):
+        GAME = 0
+        DISPLAYING_MESSAGE = 1
 
     def __init__(self):
         pyxel.init(128, 120, title="Motivational Claw Game")
         pyxel.load("claw.pyxres")
         self.claw = Claw()
+        self.state = App.State.GAME
 
         pyxel.playm(0, loop=True)
         pyxel.run(self.update, self.draw)
+        
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
-        self.claw.update()
+
+        if self.state == App.State.GAME:            
+            self.claw.update()
+        elif self.state == App.State.DISPLAYING_MESSAGE:
+            pass
+        
+        
 
     def draw(self):
-        pyxel.cls(12)
-        pyxel.camera()
+        if self.state == App.State.GAME:
+            self.draw_game()
+        elif self.state == App.State.DISPLAYING_MESSAGE:
+            self.draw_message()
 
+    def draw_game(self):
         # backdrop
         pyxel.bltm(0, 30, 0, 0, 30, 128, 78)
-        # # machine overlay
+            # # machine overlay
         pyxel.bltm(0, 0, 0, 0, 0, 128, 30)
-        # # draw claw
-        self.claw.draw(True)
 
+        self.claw.draw(True)
         pyxel.bltm(0, 108, 0, 0, 108, 128, 20)
+
+    def draw_message(self):
+        pyxel.bltm(0,0,1,0,0,128,120)
 
 
 class Claw:
@@ -38,7 +53,7 @@ class Claw:
         DESCENDING = 3
         GRABBING = 4
         ASCENDING = 5
-        DISPLAYING_MESSAGE = 6
+        DYSPLAYING_MESSAGE = 6
     def __init__(self):
         self.x = 64
         self.y = 20
@@ -50,6 +65,7 @@ class Claw:
         self.state = self.State.DEFAULT
 
         self.grab_timer = 0
+
 
     def draw(self, debug = False):
 
@@ -77,9 +93,9 @@ class Claw:
         pyxel.blt(self.x - 8, 24, 0, 48, 0, 16, 8, 14)
 
     def draw_arm(self):
-        start_y=self.y+12
+        start_y = self.y + 12
         # drawLine_y(start_y)
-        end_y=self.arm_length+start_y
+        end_y =  self.arm_length + start_y
         # drawLine_y(end_y,9)
         arm_x=self.x -8
         arm_y=self.arm_length-8
@@ -89,11 +105,11 @@ class Claw:
          pyxel.blt(self.x-8, 32,0,48,8, 16, 8, 14)
         elif self.state == Claw.State.DESCENDING or Claw.State.GRABBING:
             for i in range (self.arm_length):
-             pyxel.blt(self.x-8, i + 32 - ( i % 8) ,0,48,8, 16, 8, 14)
+             pyxel.blt(self.x-8, i + start_y - ( i % 8) ,0,48,8, 16, 8, 14)
               
         elif self.state == Claw.State.ASCENDING:
             for i in range (self.arm_length):
-                pyxel.blt(self.x-8, i+ 32 -( i % 8) , 0, 48, 8, 16, 8, 14)
+                pyxel.blt(self.x-8, i + start_y -( i % 8) , 0, 48, 8, 16, 8, 14)
   
     def draw_claw(self):
         claw_y = self.y +12
