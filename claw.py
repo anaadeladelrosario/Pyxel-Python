@@ -16,10 +16,6 @@ class App:
         pyxel.playm(0, loop=True)
         pyxel.run(self.update, self.draw)
 
-        ## JUST FOR DEBIGGING - DELETE LATER
-        self.claw.state = Claw.State.ASCENDING
-
-
     def init(self):
         self.claw = Claw()
         self.state = App.State.GAME
@@ -49,13 +45,11 @@ class App:
         # # machine overlay
         pyxel.bltm(0, 0, 0, 0, 0, SCREEN_WIDTH, 30)
         self.draw_background_messages()
-        self.claw.draw(True)
+        self.claw.draw()
         pyxel.bltm(0, 108, 0, 0, 108, SCREEN_WIDTH, 20)
 
     def draw_message(self):
-        # pyxel.cls(3)
-        #pyxel.bltm(0,0,1,0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
-        # pyxel.text(4, 16, f"{self.message.message}", 0, )
+        pyxel.bltm(0,0,1,0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
         self.message.update()
 
    
@@ -83,40 +77,30 @@ class Message:
             ]
 
         self.message = self.messages[random.randint(0,4)]
-
-
        
     def split_message(self, text):
         lines = []
-        max_width_chars = 10
+        max_width_chars = 24
 
         words = text.split(' ')
         current_line = ""
     
         for word in words:
-            # Check if adding the word exceeds the max width
             if len(current_line + word) <= max_width_chars:
                 current_line += word + ' '
             else:
-                 # If it does, push the current line and start a new one
-                # print(f"Adding line: {current_line.strip()}")
                 lines.append(current_line.strip())
                 current_line = word + ' '
-            # Add the last line if there's any remaining text
         if current_line:
-            # print(f"Adding last line: {current_line.strip()}")
             lines.append(current_line.strip())
-        # print(f"Final lines: {lines}")
         return lines
 
     def update(self):
         splited_message = self.split_message(self.message)
-        y_pos = 16
-        # pyxel.text(8, 24, f"{splited_message}", 0, )
+        y_pos = 40
         for i, line in enumerate(splited_message):
-            pyxel.text(8, i + y_pos, line, 7)
+            pyxel.text(24, i + y_pos, line, 0)
             y_pos += 8
-            print(f"Line: {line} at y-coordinate: {i}")
             
 
 class Claw:
@@ -148,8 +132,8 @@ class Claw:
 
         if(debug):
             pyxel.text(4, 4, f"X: {self.x} Y: {self.y}", 0)
-            # pyxel.line(0, self.y, 140, self.y, 3)
-            # pyxel.line(self.x, 0, self.x, 120, 7)
+            pyxel.line(0, self.y, 140, self.y, 3)
+            pyxel.line(self.x, 0, self.x, 120, 7)
             pyxel.text(4, 10, f"State: {self.state}", 0)
             pyxel.text(4, 16, f"Arm Length: {self.arm_length}", 0)
     
