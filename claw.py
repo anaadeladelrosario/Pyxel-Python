@@ -146,12 +146,9 @@ class Claw:
 
         if self.state == Claw.State.DEFAULT:
          pyxel.blt(self.x-8, 32,0,48,8, 16, 8, 14)
-        elif self.state == Claw.State.DESCENDING or Claw.State.GRABBING:
+        elif self.state == Claw.State.DESCENDING or Claw.State.GRABBING or self.state == Claw.State.ASCENDING:
             for i in range (self.arm_length):
              pyxel.blt(arm_x, i + arm_y - ( i % 8) ,0,48,8, 16, 8, 14)
-        elif self.state == Claw.State.ASCENDING:
-            for i in range (self.arm_length):
-                pyxel.blt(arm_x, i + arm_y -( i % 8) , 0, 48, 8, 16, 8, 14)
   
     def draw_claw(self):
         claw_y = self.y +12
@@ -170,11 +167,6 @@ class Claw:
             self.update_grabbing()
         elif self.state == Claw.State.ASCENDING:
             self.update_ascending()
-
-        if pyxel.btn(pyxel.KEY_DOWN):
-            self.arm_length = min(self.arm_length + 2, self.arm_length_max)              
-        if pyxel.btn(pyxel.KEY_UP):
-            self.arm_length = max(self.arm_length - 2, self.arm_length_min)   
 
     def update_default(self):
         if pyxel.btn(pyxel.KEY_LEFT):
