@@ -16,6 +16,10 @@ class App:
         pyxel.playm(0, loop=True)
         pyxel.run(self.update, self.draw)
 
+        ## JUST FOR DEBIGGING - DELETE LATER
+        self.claw.state = Claw.State.ASCENDING
+
+
     def init(self):
         self.claw = Claw()
         self.state = App.State.GAME
@@ -49,7 +53,8 @@ class App:
         pyxel.bltm(0, 108, 0, 0, 108, SCREEN_WIDTH, 20)
 
     def draw_message(self):
-        pyxel.bltm(0,0,1,0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+        # pyxel.cls(3)
+        #pyxel.bltm(0,0,1,0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
         # pyxel.text(4, 16, f"{self.message.message}", 0, )
         self.message.update()
 
@@ -106,11 +111,11 @@ class Message:
     def update(self):
         splited_message = self.split_message(self.message)
         y_pos = 16
-        pyxel.text(8, 24, f"{splited_message}", 0, )
-        # for i, line in enumerate(splited_message):
-            # pyxel.text(8, i + y_pos, line, 7)
-            # y_pos += 8
-            #  print(f"Line: {line} at y-coordinate: {i}")
+        # pyxel.text(8, 24, f"{splited_message}", 0, )
+        for i, line in enumerate(splited_message):
+            pyxel.text(8, i + y_pos, line, 7)
+            y_pos += 8
+            print(f"Line: {line} at y-coordinate: {i}")
             
 
 class Claw:
